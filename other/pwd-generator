@@ -1,0 +1,37 @@
+#!/usr/bin/python3
+import secrets
+import string
+import optparse
+import warnings
+import os
+
+def gen_password(len, chars):
+    pwd = ""
+    for i in range(len):
+        pwd += secrets.choice(chars)
+    return pwd
+
+parser = optparse.OptionParser("%prog -l <length of password> -u -n -s", version="%prog 1.0")
+parser.add_option("-l", "--length", dest="len", type="int", help="Length of password")
+parser.add_option("-u", "--upper", dest="upper", default=False, action="store_true", help="Use uppercase letters")
+parser.add_option("-n", "--number", dest="number", default=False, action="store_true", help="Use numbers")
+parser.add_option("-s", "--special", dest="special", default=False, action="store_true", help="Use special characters")
+
+options, args = parser.parse_args()
+
+if not options.len:
+    parser.error("Length of password not given.")
+elif not options.upper or not options.number or not options.special or options.len < 8:
+    warnings.warn("Unsecure password!", Warning)
+
+chars = string.ascii_lowercase
+if options.upper: chars += string.ascii_uppercase
+if options.number and options.upper: chars += string.digits * 2
+if options.number and not options.upper: chars += string.digits
+if options.special:
+    chars *= 4
+    chars += string.punctuation
+
+print("\nPASSWORD:", gen_password(options.len, chars), "\n")
+if not input("Clear screen [Y/n]: ").strip().lower().startswith("n"):
+    os.system("clear")

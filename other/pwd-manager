@@ -1,0 +1,57 @@
+#!/bin/bash
+
+if [ $# -ne 2 ]
+then
+    echo "You must pass 2 arguments"
+    exit 1
+fi
+
+if [ $1 = "read" ]
+then
+    openssl enc -aes-256-cbc -d -pbkdf2 -iter 100000 -salt -in $2 -out pwd.txt
+    echo
+    cat pwd.txt
+    rm pwd.txt
+    read
+    clear
+elif [ $1 = "add" ]
+then
+    read -p "Website: " website
+    read -p "Username: " username
+    read -sp "Password: " new_p
+    echo
+    read -sp "Repeate password: " rep_p
+    echo
+    if [ $new_p = $rep_p ]
+    then
+        openssl enc -aes-256-cbc -d -pbkdf2 -iter 100000 -salt -in $2 -out pwd.txt
+        echo "$website: $username $new_p" >> pwd.txt
+        openssl enc -aes-256-cbc -pbkdf2 -iter 100000 -salt -in pwd.txt -out $2
+        rm pwd.txt
+    else
+        echo "Incorrect Passwords."
+    fi
+elif [ $1 = "delete" ]
+then
+    read -p "Website to delete: " website
+    openssl enc -aes-256-cbc -d -pbkdf2 -iter 100000 -salt -in $2 -out pwd.txt
+    sed -i "/^$website/d" pwd.txt
+    openssl enc -aes-256-cbc -pbkdf2 -iter 100000 -salt -in pwd.txt -out $2
+    rm pwd.txt
+elif [ $1 = "replace" ]
+then
+    read -p "Website to change: " website
+    read -sp "New Password: " new_p
+    echo
+    read -sp "Repeate password: " rep_p
+    echo
+    if [ $new_p = $rep_p ]
+    then
+        openssl enc -aes-256-cbc -d -pbkdf2 -iter 100000 -salt -in $2 -out pwd.txt
+        sed -i "/^$website: [[:graph:]]* [[:graph:]]*/s/[[:graph:]]*$/$new_p/" pwd.txt
+        openssl enc -aes-256-cbc -pbkdf2 -iter 100000 -salt -in pwd.txt -out $2
+        rm pwd.txt
+    else
+        echo "Incorrect Passwords."
+    fi
+fi
