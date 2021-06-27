@@ -36,5 +36,6 @@ def main():
   m = Manager(file, pwd)
   if not m.exists():
     rpwd = getpass(colored("Repeate Master-password for database: ", "blue"))
-    if pwd != rpwd: pass
+    if pwd != rpwd:
+      pass
   print()

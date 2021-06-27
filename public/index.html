@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Password-Manager</title>
+</head>
+<body>
+  <div id="container">
+    <header>
+      <h1>Password-Manager</h1>
+    </header>
+    <main>
+      <div class="content">
+        <h2>Action</h2>
+        <div class="inp">
+          <span>Mode: </span>
+          <select id="mode">
+            <option value="read">Read</option>
+            <option value="add">Add</option>
+            <option value="addrandom">Add Random Password</option>
+            <option value="updateuser">Update Username</option>
+            <option value="updatepwd">Update Password</option>
+            <option value="delete">Delete</option>
+            <option value="readall">Read All</option>
+          </select>
+        </div>
+        <div class="inp">
+          <span>Database: </span>
+          <input type="text" name="db" id="db" placeholder="e.g. 'pwd.db'">
+        </div>
+        <div class="inp">
+          <span>Password: </span>
+          <input type="password" name="db_pwd" id="db_pwd">
+        </div>
+        <button id="submit">Submit</button>
+      </div>
+      <div id="input-field" class="content">
+        <h2>Parameter</h2>
+      </div>
+      <div class="content">
+        <h2>Result</h2>
+        <div id="result">
+          <div id="raw">Result...</div>
+          <div id="cmd">
+            <button id="copy">Copy</button>
+            <button id="clear">Clear</button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>Copyright - Félix Bommier</p>
+    </footer>
+  </div>
+
+  <script src = "script.js"></script>
+
+</body>
+</html>
