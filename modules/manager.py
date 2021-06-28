@@ -14,6 +14,9 @@ class Manager:
         if os.path.isfile(name):
             dec(name, "."+name, pwd)
             self.sql = sqlite3.connect("."+name)
+    
+    def exists(self):
+      return bool(self.sql)
 
     def isvalid(self):
         try:
@@ -22,7 +25,7 @@ class Manager:
         except:
             return False
     
-    def create(self, pwd):
+    def create(self):
       self.sql = sqlite3.connect("."+self.name)
       self.sql.execute("CREATE TABLE Main (WEBSITE varchar(255) NOT NULL, USER varchar(255) NOT NULL, PASSWORD varchar(255) NOT NULL);")
       return "Database created successfully..."
@@ -67,7 +70,7 @@ class Manager:
       return "Database deleted successfully..."
     
     def reset(self):
-      self.conn.rollback()
+      self.sql.rollback()
       return "Database was resetted successfully..."
 
     def close(self):
